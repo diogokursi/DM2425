@@ -1,5 +1,10 @@
 # We decided to create this py. file to store our functions and make our code 'cleaner'
 
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
 # 3.1. Segmentation based on Economic Value
 
 # Functions to assign R, F, and M scores
