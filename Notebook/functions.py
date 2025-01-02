@@ -50,12 +50,6 @@ def segment_customer(row):
     else:
         return 'Others'
 
-# Function to get the total of sum squares to calculate R2
-# using R² to evaluate how well the clustering solution explains the variability in the data 
-def get_ss(df):
-    ss = np.sum(df.var() * (df.count() - 1))
-    return ss  # return sum of sum of squares of each df variable
-
 # 3.4. Cluster Analysis and Profiling 
 
 def cluster_profiles(df, label_columns, figsize, 
@@ -127,3 +121,24 @@ def cluster_profiles(df, label_columns, figsize,
     # plt.subplots_adjust(hspace=0.4, top=0.90)
     plt.suptitle("Cluster Simple Profiling", fontsize=23)
     plt.show()
+
+# Assessment of the clustering solution
+
+# Function to get the total of sum squares to calculate R2
+# using R² to evaluate how well the clustering solution explains the variability in the data 
+def get_ss(df):
+    ss = np.sum(df.var() * (df.count() - 1))
+    return ss  # return sum of sum of squares of each df variable
+
+def get_ss_variables(df):
+    """Get the SS for each variable
+    """
+    ss_vars = df.var() * (df.count() - 1)
+    return ss_vars
+
+def r2_variables(df, labels):
+    """Get the R² for each variable
+    """
+    sst_vars = get_ss_variables(df)
+    ssw_vars = np.sum(df.groupby(labels).apply(get_ss_variables))
+    return 1 - ssw_vars/sst_vars
