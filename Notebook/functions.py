@@ -146,8 +146,7 @@ def r2_variables(df, labels):
 
 # PROFILING
 
-def plot_top_value_counts_by_cluster(df, column, cluster_column='merged_labels', top_n=3):
-
+def plot_counts_by_cluster(df, column, cluster_column='merged_labels', top_n=3):
     cluster_value_counts = {}
     
     # Iterate over each unique cluster
