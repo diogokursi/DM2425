@@ -142,3 +142,30 @@ def r2_variables(df, labels):
     sst_vars = get_ss_variables(df)
     ssw_vars = np.sum(df.groupby(labels).apply(get_ss_variables))
     return 1 - ssw_vars/sst_vars
+
+
+# PROFILING
+
+def plot_top_value_counts_by_cluster(df, column, cluster_column='merged_labels', top_n=3):
+
+    cluster_value_counts = {}
+    
+    # Iterate over each unique cluster
+    for cluster in df[cluster_column].unique():
+        # Filter the data for the current cluster
+        cluster_data = df[df[cluster_column] == cluster]
+        
+        # Calculate value counts and get the top N
+        value_counts_df = cluster_data[column].value_counts().head(top_n).reset_index()
+        value_counts_df.columns = [column, 'count']
+        
+        # Store the DataFrame in the dictionary
+        cluster_value_counts[cluster] = value_counts_df
+
+    for cluster, df in cluster_value_counts.items():
+        print(f"Cluster {cluster} top {top_n} value counts for '{column}':")
+        df.plot(x=column, y='count', kind='bar', title=f"Cluster {cluster} - Top {top_n} Value Counts for '{column}'",
+                edgecolor='black', legend=False)
+        plt.ylabel('Count')
+        plt.tick_params(axis='x', labelrotation=0)
+        plt.show()
